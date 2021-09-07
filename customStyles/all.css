@@ -1,0 +1,202 @@
+			
+			.gray-back{
+				background-color: gray;
+			}
+			.orange-back{
+				background-color: #ff6c00;
+			}
+			.orange-color{
+				color: #ff6c00;
+			}
+			.brown-color{
+				color: #300a02;
+			}
+			.brown-back{
+				background-color: #300a02;
+			}
+			.lightbrown-color{
+				color: #C45B07;
+			}
+			.lightbrown-back{
+				background-color: #C45B07;
+			}
+			.center{
+				text-align: center;
+			}
+			.nat-border-bot{
+				border: none;
+				border-bottom: 3px solid #C45B07;
+			}
+			.button{
+				color: #ff6c00;
+				background-color: #300a02;
+				padding: 10px;
+				padding-left: 20px;
+				padding-right: 20px;
+				border: none;
+				border-radius: 5px;
+			}
+			.button:hover{
+				color: white;
+				border: 1px solid white;
+			}
+			.natural-border{
+				border: 1px solid #300a02;
+			}
+			.input-box{
+				padding: 5px;
+				border-radius: 5px;
+			}
+			.natural-form{
+				border-radius: 10px;
+				position: relative;
+				top: 20px;
+				box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.2);
+			}
+			.natural-form .head, .natural-form .body, .natural-form .foot{
+				color: #300a02;
+				padding: 10px;
+				border: none;
+				background-color: transparent;
+			}
+			.natural-form .body, .natural-form .foot{
+				border-top: 1px solid #C45B07;
+			}
+			.natural-form .head{
+				text-align: center;
+			}
+			.natural-form .body{
+				padding: 30px;
+				word-spacing: 20px;
+			}
+			.natural-form .foot{
+				padding: 20px;
+			}
+
+
+
+			/*___________________________about the page heading________________________________*/
+			.page-head{
+				z-index: 2;
+				font-size: 18pt;
+				padding: 20px;
+				word-spacing: 20px;
+			}
+			.page-head span:hover{
+				color: #300a02;
+			}
+			.page-head a:hover{
+				color: #300a02;
+				text-decoration: none;
+			}
+			.current-used{
+				color: #300a02;
+			}
+			.normal-shadow{
+				box-shadow: 5px 5px 3px 3px rgba(0,0,0,0.4);
+			}
+			.bot-right-border{
+				border: none;
+				border-left: 1px solid #ff6c00;
+				border-bottom: 1px solid #300a02;
+				border-right: 1px solid #300a02;
+			}
+			.drop-down-list{
+				font-size: 14pt;
+				position: absolute;
+				top: 0px;
+				word-spacing: 5px;
+				background-color: #C45B07;
+				color: #300a02;
+				border-bottom-right-radius: 5px;
+				border-bottom-left-radius: 5px;
+				padding-right: 20px;
+			}
+			.drop-down-list ul li{
+				list-style: none;
+				margin-top: 10px;
+			}
+			.drop-down-list ul li a{
+				color: #300a02;
+				text-decoration: none;
+			}
+			.drop-down-list ul li a:hover{
+				color: #ff6c00;
+			}
+
+
+			/*_________________________content__________________________*/
+			.page-content{
+				z-index: 1;
+			}
+
+
+			/*___________________________modal baox___________________________*/
+			.modal-content{
+				background-color: #ff6c00;
+				color: #300a02;
+			}
+			.modal-body, .modal-header, .modal-footer{
+				border:none;
+			}
+			.modal-header{
+				text-align: center;
+				background-color: transparent;
+				color: #300a02;
+				border-bottom: 1px solid #C45B07;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+			}
+			.modal-footer{
+				border-top: 1px solid #C45B07;
+			}
+
+	/*_________________________tools and arrow para sa button ng kilid ng display_______________________*/
+			.tools, .tool-arrow{
+				z-index: 3;
+				position: fixed;
+				top: 60%;
+				left: 0%;
+				padding: 10px;
+				padding-left: 30px;
+				padding-right: 30px;
+				border: none;
+				border-bottom-right-radius: 20px;
+				border-top-right-radius: 20px;
+				word-spacing: 10px;
+				font-size: 14pt;
+				text-align: right;
+			}
+			.tool-arrow{
+				font-size: 16pt;
+				padding-top: 30px;
+				padding-bottom: 30px;
+				border-bottom-right-radius: 40px;
+				border-top-right-radius: 40px;
+			}
+			.tools span{
+				padding: 10px;
+
+			}
+			.tools label{
+				font-size: 10pt;
+			}
+			.tools span:hover, .tool-arrow span:hover{
+				color: white;
+			}
+			
+			/*____________________checked toogle_____________________*/
+			.checked{
+				padding: 5px;
+				padding-right: 10px;
+				font-size: 14pt;
+			}
+			.checked:hover{
+				color: #b24905;
+			}
+			.checked.glyphicon-remove-sign{
+				color: red;
+			}
+			.img-responsive{
+				border: none;
+			}

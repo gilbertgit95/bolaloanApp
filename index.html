@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en" >
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="libraries/style/bootstrap/css/bootstrap.min.css" />
+		<title>Login to Bolaloan Admin/Client</title>
+		<script type="text/javascript" src="libraries/js/respond.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="customStyles/all.css" />
+		<style type="text/css" rel="stylesheet" >
+			.prompt-box{
+				word-spacing: 1px;
+				padding-bottom: 20px;
+			}
+			.button{
+				font-size: 8px;
+				padding: 10px;
+			}
+		</style>
+	</head>
+
+	<body class="gray-back hide">
+		<div class="container">
+			<div class="raw">
+				<div class="col-xs-12">
+					<div class="raw" >
+						<div class="col-xs-0 col-sm-1 col-md-3 col-xl-4" >
+						</div>
+						<div class="col-xs-12 col-sm-10 col-md-6 col-xl-4" >
+							<div class="raw">
+								<div class="col-xs-12 natural-form orange-back natural-border">
+									<div class="head" >
+										<span><span class="glyphicon glyphicon-user"></span> Login as Administrator or collector</span>
+									</div>
+									<div class="body">
+										<div class="collector hide">
+											<div class="prompt-box hide"></div>
+											<label>Collector key</label>
+											<input class="input-box natural-border" type="text" id="collector-key" />
+										</div>
+										<div class="admin">
+											<div class="prompt-box hide"></div>
+											<label>username</label>
+											<input class="input-box natural-border" type="text" id="username" />
+											<br />
+											<br />
+											<label>password</label>
+											<input class="input-box natural-border" type="password" id="password" />
+										</div>
+									</div>
+									<div class="foot">
+										<span class="button" id="login-type">Administrator</span>
+										<span class="button" id="login-btn"><span class="glyphicon glyphicon-log-in"></span> login</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-0 col-sm-1 col-md-3 col-xl-4" >
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="libraries/js/jquery-2.2.1.min.js" ></script>
+		<script type="text/javascript" src="libraries/js/jquery-cookie.js" ></script>
+		<script type="text/javascript" src="libraries/style/bootstrap/js/bootstrap.min.js" ></script>
+		<script type="text/javascript" src="scripts/js/validation.js" ></script>
+		<script type="text/javascript" >
+			// test if there are keys and redirect the page
+			function loginTest(){
+				var adminKey = $.cookie("adminKey");
+				var collectorKey = $.cookie("collectorKey");
+				if(adminKey){
+					// run if admin key exist
+					var out = {
+						command: "checkAdminKey",
+						cookie: adminKey
+					};
+					// check key if existed on the database
+					$.ajax({
+						type: "POST",
+						url: "scripts/php/custom/login.php",
+						data: {"data": JSON.stringify(out)},
+						cache: false,
+						success: function(data){
+							//alert(data);
+							var newData = JSON.parse(data.substr(1,data.length));
+							
+							if(newData.command == "checkAdminKey"){
+								// set the client key in the client modal box
+								if(newData.data == "success"){	
+									//alert("nice");
+									window.location="pages/statOrders.php";
+								}else{
+									// if the cookie or key not existed on the database
+									//alert("bad");
+									// run if collector key exist
+									if(collectorKey){
+										var out = {
+											command: "checkClientKey",
+											cookie: collectorKey
+										};
+										// check key if existed on the database
+										$.ajax({
+											type: "POST",
+											url: "scripts/php/custom/login.php",
+											data: {"data": JSON.stringify(out)},
+											cache: false,
+											success: function(data){
+												var newData = JSON.parse(data.substr(1,data.length));
+												//alert(newData);
+												if(newData.command == "checkClientKey"){
+													// set the client key in the client modal box
+													if(newData.data == "success"){	
+														//alert("nice");
+														window.location="pages/clientCollector.php";
+													}
+												}
+											}
+										});
+									}
+									$("body").removeClass("hide");
+									//$("body").show();
+								}
+							}
+						}
+					});
+					//alert("bad");
+				}else{
+					$("body").removeClass("hide");
+				}
+				
+			}
+			// events for client  or administator login
+			function loginTypeEvent(){
+				$(".collector").hide();
+				$(".collector").removeClass("hide");
+				$(".foot").find(".button").eq(0).bind("click", function(){
+					// hide the warning on change loigin type
+					inputFilter.hideWarning();
+					if($(this).text()=="Administrator"){
+						$(this).text("Collector");
+						$(".admin").slideUp();
+						$(".collector").slideDown();
+					}else{
+						$(this).text("Administrator");
+						$(".collector").slideUp();
+						$(".admin").slideDown();
+					}
+				});
+				//login button event
+				$("#login-btn").bind("click", function(){
+					if($("#login-type").text() == "Administrator"){
+						// get the username password
+						var username = $("#username").val();
+						var password = $("#password").val();
+						inputFilter.clear();
+						var userStatus = inputFilter.username(username, false);
+						var passStatus = inputFilter.password(password, true);
+						if(userStatus || passStatus){
+							inputFilter.showWarning();
+						}else{
+							inputFilter.hideWarning();
+							var out = {
+								command: "loginAdmin",
+								username: username,
+								password: password
+							};
+							$.ajax({
+								type: "POST",
+								url: "scripts/php/custom/login.php",
+								data: {"data": JSON.stringify(out)},
+								cache: false,
+								success: function(data){
+									var newData = JSON.parse(data.substr(1,data.length));
+									//alert(newData);
+									if(newData.command == "loginAdmin"){
+										// set the client key in the client modal box
+										if(newData.data == "success"){
+											var date = new Date();
+											date.setTime(date.getTime() + (5*12*60*60*1000));
+											$.cookie("adminKey", newData.key, { expires: date });
+										    //alert(newData.data);
+										    window.location="pages/statOrders.php";
+										}else{
+
+											$(".prompt-box").html("Error login: cauld be wrong password or username");
+									   		inputFilter.showWarning();
+										}
+									}
+								}
+							});
+						}
+						//alert(password);
+					}else if($("#login-type").text() == "Collector"){
+						//get the collector key
+						var collectorKey = $("#collector-key").val();
+						inputFilter.clear();
+						var keyStatus = inputFilter.key(collectorKey, false);
+						if(keyStatus){
+							inputFilter.showWarning();
+						}else{
+							inputFilter.hideWarning();
+							var out = {
+								command: "loginCollector",
+								key: collectorKey
+							};
+							//alert(JSON.stringify(out));
+							$.ajax({
+								type: "POST",
+								url: "scripts/php/custom/login.php",
+								data: {"data": JSON.stringify(out)},
+								cache: false,
+								success: function(data){
+									//alert(data);
+									var newData = JSON.parse(data.substr(1,data.length));
+									
+									if(newData.command == "loginCollector"){
+									   if(newData.data == "success"){
+									   		var date = new Date();
+											date.setTime(date.getTime() + (5*12*60*60*1000));
+											$.cookie("collectorKey", newData.key, { expires: date });
+									   		//alert(newData.key);
+									   		window.location="pages/clientCollector.php";
+									   }else{
+									   		$(".prompt-box").html("Error login: cauld be wrong key");
+									   		inputFilter.showWarning();
+									   }
+									}
+								}
+							});
+						}
+						//alert(collectorKey);
+					}
+				});
+			}
+			$(document).ready(function(){
+				// test if there is a key and if it is valid redirect to other page
+				loginTest();
+				$(".prompt-box").removeClass("hide").hide();
+				inputFilter.init($(".prompt-box"));
+				loginTypeEvent();
+				//alert("tae");
+			});
+		</script>
+	</body>
+</html>
